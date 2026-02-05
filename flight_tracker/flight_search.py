@@ -50,8 +50,10 @@ class FlightSearch:
                     currencyCode="USD"
                 )
                 if response.data:
-                    # Return the price of the first offer
-                    return float(response.data[0]["price"]["grandTotal"])
+                    # Return the price and currency of the first offer
+                    price = float(response.data[0]["price"]["grandTotal"])
+                    currency = response.data[0]["price"]["currency"]
+                    return price, currency
                 else:
                     print(f"No flight offers found for {origin} -> {destination} on {departure_date}.")
             except ResponseError as error:
@@ -63,9 +65,8 @@ class FlightSearch:
             with open(self.mock_data_file, "r") as f:
                 mock_data = json.load(f)
                 route = f"{origin}-{destination}"
-                return mock_data.get(route, float('inf'))
-        return float('inf')
+                return mock_data.get(route, float('inf')), "USD"
+        return float('inf'), "USD"
 
     def get_destination_code(self, city_name):
-        # This is now largely superseded by get_iata_code, but kept for compatibility
         return self.get_iata_code(city_name)
