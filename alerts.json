@@ -2,12 +2,12 @@
     {
         "origin": "GOP",
         "destination": "BOM",
-        "target_price": 6000.0,
-        "departure_date": "2026-04-05"
+        "target_price": 14860.0,
+        "departure_date": "2026-12-05"
     },
     {
         "origin": "GOP",
-        "destination": "MUMBAI",
+        "destination": "BOM",
         "target_price": 6000.0,
         "departure_date": "2026-04-05"
     }

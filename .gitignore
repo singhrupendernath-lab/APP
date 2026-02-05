@@ -5,3 +5,4 @@ __pycache__/
 alerts.json
 flight_alerts.log
 venv/
+alerts.json
