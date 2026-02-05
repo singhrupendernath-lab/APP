@@ -28,8 +28,14 @@ Current price: $413.93
 Target price: $1000.0
 Go book your flight now!
 --------------------
+<<<<<<< HEAD
 ALERT! Low price detected for LHR -> JFK!
 Current price: $413.93
 Target price: $1000.0
+=======
+ALERT! Low price detected for LON -> PAR!
+Current price: $91.2
+Target price: $500.0
+>>>>>>> origin/flight-fare-alerts-10852366046595340758
 Go book your flight now!
 --------------------

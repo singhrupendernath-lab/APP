@@ -21,10 +21,25 @@ class FlightSearch:
             self.amadeus = None
             print("Missing Amadeus API credentials. SDK not initialized.")
 
-    def get_current_price(self, origin, destination, departure_date):
-        """
-        Returns cheapest flight price
-        """
+    def get_iata_code(self, city):
+        if not self.amadeus:
+            return city.upper()[:3]
+
+        try:
+            response = self.amadeus.reference_data.locations.get(
+                keyword=city,
+                subType='CITY'
+            )
+            if response.data:
+                return response.data[0]['iataCode']
+            else:
+                print(f"No IATA code found for city: {city}")
+                return city.upper()[:3]
+        except ResponseError as error:
+            print(f"Amadeus API Error (Locations): {error}")
+            return city.upper()[:3]
+
+    def get_current_price(self, origin, destination, departure_date=None):
         if self.amadeus:
             try:
                 response = self.amadeus.shopping.flight_offers_search.get(
@@ -40,7 +55,7 @@ class FlightSearch:
                     return float(response.data[0]["price"]["grandTotal"])
 
             except ResponseError as error:
-                print(f"Amadeus API Error: {error}")
+                print(f"Amadeus API Error (Flight Offers): {error}")
 
         return self._fallback_price(origin, destination)
 
@@ -52,3 +67,7 @@ class FlightSearch:
                 route = f"{origin}-{destination}"
                 return mock_data.get(route, float('inf'))
         return float('inf')
+
+    def get_destination_code(self, city_name):
+        # This is now largely superseded by get_iata_code, but kept for compatibility
+        return self.get_iata_code(city_name)
