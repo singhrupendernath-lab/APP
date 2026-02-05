@@ -10,8 +10,12 @@ class DataManager:
                 json.dump([], f)
 
     def get_alerts(self):
-        with open(self.filename, "r") as f:
-            return json.load(f)
+        try:
+            with open(self.filename, "r") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, FileNotFoundError) as e:
+            print(f"Error reading {self.filename}: {e}. Returning an empty list of alerts.")
+            return []
 
     def add_alert(self, origin, destination, target_price, departure_date=None):
         if not departure_date:
@@ -26,6 +30,9 @@ class DataManager:
             "departure_date": departure_date
         }
         alerts.append(new_alert)
-        with open(self.filename, "w") as f:
-            json.dump(alerts, f, indent=4)
+        try:
+            with open(self.filename, "w") as f:
+                json.dump(alerts, f, indent=4)
+        except Exception as e:
+            print(f"Error writing to {self.filename}: {e}")
         return new_alert
