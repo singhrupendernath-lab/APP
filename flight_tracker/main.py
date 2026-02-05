@@ -16,12 +16,20 @@ def main():
         departure_date = alert.get("departure_date")
 
         print(f"Checking flights for {origin} -> {destination} on {departure_date}...")
-        current_price, currency = flight_search.get_current_price(origin, destination, departure_date)
+        offers = flight_search.get_current_price(origin, destination, departure_date)
 
-        if current_price <= target_price:
-            notification_manager.send_alert(origin, destination, current_price, target_price, currency)
+        if offers:
+            # Assuming offers are sorted by price from the API
+            cheapest_offer = offers[0]
+            current_price = cheapest_offer["price"]
+            currency = cheapest_offer["currency"]
+
+            if current_price <= target_price:
+                notification_manager.send_alert(origin, destination, target_price, offers)
+            else:
+                print(f"Current lowest price {currency} {current_price} is still above target {target_price}.")
         else:
-            print(f"Current price {currency} {current_price} is still above target {target_price}.")
+            print(f"No offers found for {origin} -> {destination}")
 
 if __name__ == "__main__":
     main()
