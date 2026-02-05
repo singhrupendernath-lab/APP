@@ -13,8 +13,14 @@ class DataManager:
         try:
             with open(self.filename, "r") as f:
                 return json.load(f)
-        except (json.JSONDecodeError, FileNotFoundError) as e:
-            print(f"Error reading {self.filename}: {e}. Returning an empty list of alerts.")
+        except json.JSONDecodeError as e:
+            print(f"Error reading {self.filename}: {e}. Renaming to {self.filename}.bad and resetting.")
+            if os.path.exists(self.filename):
+                os.rename(self.filename, self.filename + ".bad")
+            with open(self.filename, "w") as f:
+                json.dump([], f)
+            return []
+        except FileNotFoundError:
             return []
 
     def add_alert(self, origin, destination, target_price, departure_date=None):
