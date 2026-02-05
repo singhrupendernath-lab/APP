@@ -29,7 +29,7 @@ class FlightSearch:
                     departureDate=departure_date,
                     adults=1,
                     max=1,
-                    currencyCode="USD"
+                    currencyCode="INR"
                 )
                 if response.data:
                     # Return the price of the first offer
