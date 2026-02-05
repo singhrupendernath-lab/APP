@@ -1,2 +1,3 @@
-requests
+amadeus
 python-dotenv
+requests

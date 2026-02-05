@@ -1,21 +1,21 @@
 # Flight Fare Alert System
 
-A Python-based tool to track flight prices and receive alerts when they drop below a specified threshold. Now integrated with the Amadeus Flight API!
+A Python-based tool to track flight prices and receive alerts when they drop below a specified threshold. Now integrated with the official Amadeus Flight API Python SDK!
 
 ## Features
 
 - **Alert Management**: Add flight routes, target prices, and departure dates via a simple CLI.
-- **Price Monitoring**: Check current flight prices using the Amadeus Flight API.
+- **Price Monitoring**: Check real-time flight prices using the official Amadeus Python SDK.
 - **Notifications**: Get notified via console output and a persistent log file (`flight_alerts.log`).
-- **Modular Design**: Easy to extend or integrate with other notifications like email or SMS.
+- **Modular Design**: Clean separation of concerns between data storage, flight searching, and notifications.
 
 ## Project Structure
 
 - `flight_tracker/`: Core package containing the application logic.
   - `cli.py`: Command Line Interface to add new alerts.
   - `main.py`: Main entry point to run the monitoring logic.
-  - `data_manager.py`: Handles loading and saving flight alerts.
-  - `flight_search.py`: Handles flight price searching using Amadeus API.
+  - `data_manager.py`: Handles loading and saving flight alerts in `alerts.json`.
+  - `flight_search.py`: Handles flight price searching using the `amadeus` Python SDK.
   - `notification_manager.py`: Manages alerting the user.
 - `alerts.json`: Persistent storage for your flight alerts.
 - `.env`: Store your Amadeus API credentials here (ignored by git).
@@ -60,20 +60,18 @@ PYTHONPATH=flight_tracker python3 flight_tracker/cli.py <ORIGIN> <DESTINATION> <
 
 **Example:**
 ```bash
-PYTHONPATH=flight_tracker python3 flight_tracker/cli.py LHR JFK 500 2024-12-15
+PYTHONPATH=flight_tracker python3 flight_tracker/cli.py LHR JFK 500 2026-06-01
 ```
 *If no date is provided, it defaults to 30 days from today.*
 
 ### 2. Checking for Price Drops
 
-Run the `main.py` script to check all your saved alerts against the Amadeus API.
+Run the `main.py` script to check all your saved alerts. This script will iterate through your alerts, call the Amadeus API for each, and notify you if a price drop is detected.
 
 ```bash
 PYTHONPATH=flight_tracker python3 flight_tracker/main.py
 ```
 
-If a flight's current price is less than or equal to your target price, an alert will be triggered.
-
 ## Testing with Mock Data
 
-If no API keys are provided in the `.env` file, the system will fall back to using `mock_prices.json`.
+If no API keys are provided in the `.env` file, the system will fall back to using `mock_prices.json`. You can modify `mock_prices.json` to test the alerting logic without calling the API.
