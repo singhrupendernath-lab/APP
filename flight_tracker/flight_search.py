@@ -20,6 +20,24 @@ class FlightSearch:
             self.amadeus = None
             print("Missing Amadeus API credentials. Amadeus SDK not initialized.")
 
+    def get_iata_code(self, city):
+        if not self.amadeus:
+            return city.upper()[:3]
+
+        try:
+            response = self.amadeus.reference_data.locations.get(
+                keyword=city,
+                subType='CITY'
+            )
+            if response.data:
+                return response.data[0]['iataCode']
+            else:
+                print(f"No IATA code found for city: {city}")
+                return city.upper()[:3]
+        except ResponseError as error:
+            print(f"Amadeus API Error (Locations): {error}")
+            return city.upper()[:3]
+
     def get_current_price(self, origin, destination, departure_date=None):
         if self.amadeus:
             try:
@@ -37,7 +55,7 @@ class FlightSearch:
                 else:
                     print(f"No flight offers found for {origin} -> {destination} on {departure_date}.")
             except ResponseError as error:
-                print(f"Amadeus API Error: {error}")
+                print(f"Amadeus API Error (Flight Offers): {error}")
 
         # Fallback to mock data
         print("Falling back to mock data...")
@@ -49,4 +67,5 @@ class FlightSearch:
         return float('inf')
 
     def get_destination_code(self, city_name):
-        return city_name.upper()[:3]
+        # This is now largely superseded by get_iata_code, but kept for compatibility
+        return self.get_iata_code(city_name)

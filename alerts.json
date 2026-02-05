@@ -1,8 +1,8 @@
 [
     {
-        "origin": "LHR",
-        "destination": "JFK",
-        "target_price": 1000.0,
+        "origin": "LON",
+        "destination": "PAR",
+        "target_price": 500.0,
         "departure_date": "2026-06-01"
     }
 ]
