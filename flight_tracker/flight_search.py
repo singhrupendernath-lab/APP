@@ -48,7 +48,7 @@ class FlightSearch:
                     departureDate=departure_date,
                     adults=1,
                     max=5,
-                    currencyCode="USD"
+                    currencyCode="INR"
                 )
                 if response.data:
                     dictionaries = response.result.get('dictionaries', {})
@@ -81,13 +81,13 @@ class FlightSearch:
                     price = mock_data.get(route, float('inf'))
                     offers.append({
                         "price": price,
-                        "currency": "USD",
+                        "currency": "INR",
                         "airline": "Mock Airline"
                     })
             else:
                 offers.append({
                     "price": float('inf'),
-                    "currency": "USD",
+                    "currency": "INR",
                     "airline": "Unknown"
                 })
         return offers

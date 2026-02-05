@@ -1,5 +1,6 @@
 {
-    "LHR-JFK": 450.0,
-    "SFO-CDG": 800.0,
-    "SYD-TYO": 600.0
+    "GOP-BOM": 6000.0,
+    "DEL-BOM": 5000.0,
+    "BOM-BLR": 4000.0,
+    "MAA-DEL": 5500.0
 }

@@ -1,14 +1,8 @@
 [
     {
-        "origin": "LON",
-        "destination": "PAR",
-        "target_price": 500.0,
-        "departure_date": "2026-06-01"
-    },
-    {
         "origin": "GAU",
         "destination": "BOM",
-        "target_price": 20000.0,
+        "target_price": 25000.0,
         "departure_date": "2026-12-05"
     }
 ]

@@ -21,7 +21,7 @@ def main():
 
     data_manager = DataManager()
     alert = data_manager.add_alert(origin, destination, target_price, departure_date)
-    print(f"Added alert: {alert['origin']} -> {alert['destination']} on {alert['departure_date']} at ${alert['target_price']}")
+    print(f"Added alert: {alert['origin']} -> {alert['destination']} on {alert['departure_date']} at INR {alert['target_price']}")
 
 if __name__ == "__main__":
     main()
