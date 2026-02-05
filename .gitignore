@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+alerts.json
+flight_alerts.log
