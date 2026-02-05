@@ -2,11 +2,7 @@
     {
         "origin": "LHR",
         "destination": "JFK",
-        "target_price": 500.0
-    },
-    {
-        "origin": "SFO",
-        "destination": "CDG",
-        "target_price": 700.0
+        "target_price": 1000.0,
+        "departure_date": "2026-06-01"
     }
 ]

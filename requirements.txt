@@ -1,1 +1,2 @@
-# Add dependencies here if you implement a real flight API, e.g., requests
+requests
+python-dotenv

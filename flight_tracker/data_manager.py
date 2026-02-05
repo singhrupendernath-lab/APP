@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime, timedelta
 
 class DataManager:
     def __init__(self, filename="alerts.json"):
@@ -12,12 +13,17 @@ class DataManager:
         with open(self.filename, "r") as f:
             return json.load(f)
 
-    def add_alert(self, origin, destination, target_price):
+    def add_alert(self, origin, destination, target_price, departure_date=None):
+        if not departure_date:
+            # Default to 30 days from now
+            departure_date = (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d")
+
         alerts = self.get_alerts()
         new_alert = {
             "origin": origin,
             "destination": destination,
-            "target_price": float(target_price)
+            "target_price": float(target_price),
+            "departure_date": departure_date
         }
         alerts.append(new_alert)
         with open(self.filename, "w") as f:
