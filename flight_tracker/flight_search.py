@@ -8,6 +8,7 @@ load_dotenv()
 AMADEUS_API_KEY = os.getenv("AMADEUS_API_KEY")
 AMADEUS_API_SECRET = os.getenv("AMADEUS_API_SECRET")
 
+
 class FlightSearch:
     def __init__(self, mock_data_file="mock_prices.json"):
         self.mock_data_file = mock_data_file
@@ -18,9 +19,12 @@ class FlightSearch:
             )
         else:
             self.amadeus = None
-            print("Missing Amadeus API credentials. Amadeus SDK not initialized.")
+            print("Missing Amadeus API credentials. SDK not initialized.")
 
-    def get_current_price(self, origin, destination, departure_date=None):
+    def get_current_price(self, origin, destination, departure_date):
+        """
+        Returns cheapest flight price
+        """
         if self.amadeus:
             try:
                 response = self.amadeus.shopping.flight_offers_search.get(
@@ -31,22 +35,20 @@ class FlightSearch:
                     max=1,
                     currencyCode="INR"
                 )
+
                 if response.data:
-                    # Return the price of the first offer
                     return float(response.data[0]["price"]["grandTotal"])
-                else:
-                    print(f"No flight offers found for {origin} -> {destination} on {departure_date}.")
+
             except ResponseError as error:
                 print(f"Amadeus API Error: {error}")
 
-        # Fallback to mock data
-        print("Falling back to mock data...")
+        return self._fallback_price(origin, destination)
+
+    def _fallback_price(self, origin, destination):
+        print("Using mock data...")
         if os.path.exists(self.mock_data_file):
             with open(self.mock_data_file, "r") as f:
                 mock_data = json.load(f)
                 route = f"{origin}-{destination}"
                 return mock_data.get(route, float('inf'))
         return float('inf')
-
-    def get_destination_code(self, city_name):
-        return city_name.upper()[:3]
